@@ -1,75 +1,92 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import App from '@/App.js'
+import React from 'react'
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
+const index = () => {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+    <App/>
+  )
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+export default index
+
+
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import React, { useEffect, useState } from 'react';
+// import { FlatList, Linking, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
+// export default function App() {
+//   const [number, setNumber] = useState('');
+//   const [history, setHistory] = useState([]);
+
+//   useEffect(() => {
+//     fetchCallHistory();
+//   }, []);
+
+//   const handleCall = async (phoneNumber) => {
+//     const telLink = `tel:${phoneNumber}`;
+//     Linking.openURL(telLink);
+
+//     // Save to custom history
+//     const newEntry = {
+//       id: Date.now().toString(),
+//       number: phoneNumber,
+//       timestamp: new Date().toLocaleString(),
+//     };
+
+//     const updatedHistory = [newEntry, ...history];
+//     setHistory(updatedHistory);
+//     await AsyncStorage.setItem('callHistory', JSON.stringify(updatedHistory));
+//   };
+
+//   const fetchCallHistory = async () => {
+//     const savedHistory = await AsyncStorage.getItem('callHistory');
+//     if (savedHistory) {
+//       setHistory(JSON.parse(savedHistory));
+//     }
+//   };
+
+//   const renderItem = ({ item }) => (
+//     <View style={styles.historyItem}>
+//       <Text style={styles.historyText}>{item.number}</Text>
+//       <Text style={styles.timestamp}>{item.timestamp}</Text>
+//     </View>
+//   );
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.label}>Enter Number:</Text>
+//       <TextInput
+//         keyboardType="phone-pad"
+//         value={number}
+//         onChangeText={setNumber}
+//         placeholder="Enter phone number"
+//         style={styles.input}
+//       />
+
+//       {number.length > 0 && (
+//         <TouchableOpacity onPress={() => handleCall(number)} style={styles.callButton}>
+//           <Text style={styles.callText}>Call {number}</Text>
+//         </TouchableOpacity>
+//       )}
+
+//       <Text style={styles.label}>Call History:</Text>
+//       <FlatList
+//         data={history}
+//         keyExtractor={(item) => item.id}
+//         renderItem={renderItem}
+//         ListEmptyComponent={<Text>No call history yet.</Text>}
+//       />
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: { padding: 20, paddingTop: 50, backgroundColor: '#fff', flex: 1 },
+//   label: { fontSize: 18, marginBottom: 10 },
+//   input: { borderWidth: 1, borderColor: '#aaa', borderRadius: 8, padding: 10, marginBottom: 20 },
+//   callButton: { backgroundColor: '#0a84ff', padding: 15, borderRadius: 10, marginBottom: 30 },
+//   callText: { color: '#fff', fontSize: 18, textAlign: 'center' },
+//   historyItem: { marginBottom: 10, backgroundColor: '#f0f0f0', padding: 10, borderRadius: 8 },
+//   historyText: { fontSize: 16, fontWeight: 'bold' },
+//   timestamp: { fontSize: 12, color: '#555' },
+// });
