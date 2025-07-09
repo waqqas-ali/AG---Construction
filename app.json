@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/agconstruction-1.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.waqqasali.AGConstruction"
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +38,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7201c9f8-9fae-4035-a66a-c1d24ef359bf"
+      }
     }
   }
 }
