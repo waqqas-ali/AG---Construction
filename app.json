@@ -4,7 +4,7 @@
     "slug": "AG-Construction",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/agconstruction-1.png",
+    "icon": "./assets/images/image-1.png",
     "scheme": "agconstruction",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/agconstruction-1.png",
+        "foregroundImage": "./assets/images/image-1.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -29,7 +29,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/agconstruction-1.png",
+          "image": "./assets/images/image-1.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

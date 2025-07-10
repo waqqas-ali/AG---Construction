@@ -10,12 +10,11 @@ import {
     FlatList,
     Modal,
     Platform,
-    SafeAreaView,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
@@ -307,7 +306,7 @@ const FlatManagement = () => {
     );
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>Flats Management</Text>
                 {id && (
@@ -416,7 +415,7 @@ const FlatManagement = () => {
                     </View>
                 </View>
             </Modal>
-        </SafeAreaView>
+        </View>
     );
 };
 
@@ -427,6 +426,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f9fa',
     },
     header: {
+        paddingTop : hp('4%'),
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

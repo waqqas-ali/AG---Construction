@@ -1098,18 +1098,17 @@ import { Picker } from "@react-native-picker/picker"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import {
-    ActivityIndicator,
-    Alert,
-    Dimensions,
-    FlatList,
-    Modal,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  FlatList,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native"
 
 const { width, height } = Dimensions.get("window")
@@ -1334,7 +1333,7 @@ const Add_Staff = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#f8f9fa" />
+      {/* <StatusBar barStyle="dark-content" backgroundColor="#f8f9fa" /> */}
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Header */}

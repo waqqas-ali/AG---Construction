@@ -2314,303 +2314,812 @@
 
 
 
-import { BASE_URL } from '@/Api/BASE_URL.js';
-import { MaterialIcons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import { LinearGradient } from 'expo-linear-gradient';
-import React, { useEffect, useRef, useState } from 'react';
+// import { BASE_URL } from '@/Api/BASE_URL.js';
+// import { MaterialIcons } from '@expo/vector-icons';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import axios from 'axios';
+// import { LinearGradient } from 'expo-linear-gradient';
+// import React, { useEffect, useRef, useState } from 'react';
+// import {
+//   ActivityIndicator,
+//   Alert,
+//   Animated,
+//   Image,
+//   StyleSheet,
+//   Text,
+//   TextInput,
+//   TouchableOpacity,
+//   View,
+// } from 'react-native';
+
+// const Login = ({ navigation }) => {
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
+//   const [loading, setLoading] = useState(false);
+//   const [showPassword, setShowPassword] = useState(false);
+
+//   // Animation setup
+//   const fadeAnim = useRef(new Animated.Value(0)).current;
+//   const slideAnim = useRef(new Animated.Value(50)).current;
+//   const inputScaleAnim = useRef(new Animated.Value(0.95)).current;
+
+//   useEffect(() => {
+//     const checkLoginStatus = async () => {
+//       try {
+//         const token = await AsyncStorage.getItem('jwtToken');
+//         const userData = await AsyncStorage.getItem('user');
+//         console.log(userData);
+
+//         if (token && userData) {
+//           navigation.replace('Home');
+//         } else {
+//           Animated.parallel([
+//             Animated.timing(fadeAnim, {
+//               toValue: 1,
+//               duration: 800,
+//               useNativeDriver: true,
+//             }),
+//             Animated.timing(slideAnim, {
+//               toValue: 0,
+//               duration: 800,
+//               useNativeDriver: true,
+//             }),
+//             Animated.spring(inputScaleAnim, {
+//               toValue: 1,
+//               friction: 8,
+//               tension: 40,
+//               useNativeDriver: true,
+//             }),
+//           ]).start();
+//         }
+//       } catch (error) {
+//         console.error('Error checking login status:', error);
+//         Animated.parallel([
+//           Animated.timing(fadeAnim, {
+//             toValue: 1,
+//             duration: 800,
+//             useNativeDriver: true,
+//           }),
+//           Animated.timing(slideAnim, {
+//             toValue: 0,
+//             duration: 800,
+//             useNativeDriver: true,
+//           }),
+//           Animated.spring(inputScaleAnim, {
+//             toValue: 1,
+//             friction: 8,
+//             tension: 40,
+//             useNativeDriver: true,
+//           }),
+//         ]).start();
+//       }
+//     };
+
+//     checkLoginStatus();
+//   }, [navigation, fadeAnim, slideAnim, inputScaleAnim]);
+
+//   const handleLogin = async () => {
+//     if (!email || !password) {
+//       Alert.alert('Error', 'Please fill in all fields');
+//       return;
+//     }
+
+//     setLoading(true);
+//     try {
+//       const response = await axios.post(`${BASE_URL}/auth/login`, {
+//         email,
+//         password,
+//       });
+
+//       const { jwtToken, admin } = response.data;
+
+//       try {
+//         await AsyncStorage.setItem('jwtToken', jwtToken);
+//         await AsyncStorage.setItem('user', JSON.stringify(admin));
+
+//         navigation.replace('Home', {email});
+//       } catch (storageError) {
+//         throw new Error('Failed to store authentication data');
+//       }
+//     } catch (error) {
+//       setLoading(false);
+//       const errorMessage =
+//         error.response?.data?.message ||
+//         error.message ||
+//         'Login failed. Please try again.';
+//       Alert.alert('Login Error', errorMessage);
+//     }
+//   };
+
+//   return (
+//     <LinearGradient
+//       colors={['#007AFF', '#004C99']}
+//       style={styles.container}
+//     >
+//       <Animated.View
+//         style={[
+//           styles.formContainer,
+//           {
+//             opacity: fadeAnim,
+//             transform: [{ translateY: slideAnim }],
+//           },
+//         ]}
+//       >
+//         {/* Logo Placeholder */}
+//         <View style={styles.logoContainer}>
+//           <Image
+//             source={require('@/assets/images/agconstruction-1.png')} // Replace with actual logo URL
+//             style={styles.logo}
+//           />
+//           <Text style={styles.title}>AG Construction</Text>
+//           <Text style={styles.subtitle}>Sign in to manage properties</Text>
+//         </View>
+
+//         {/* Email Input */}
+//         <Animated.View style={[styles.inputContainer, { transform: [{ scale: inputScaleAnim }] }]}>
+//           <MaterialIcons name="email" size={24} color="#6B7280" style={styles.inputIcon} />
+//           <TextInput
+//             style={styles.input}
+//             placeholder="Email"
+//             value={email}
+//             onChangeText={setEmail}
+//             keyboardType="email-address"
+//             autoCapitalize="none"
+//             placeholderTextColor="#9CA3AF"
+//           />
+//         </Animated.View>
+
+//         {/* Password Input */}
+//         <Animated.View style={[styles.inputContainer, { transform: [{ scale: inputScaleAnim }] }]}>
+//           <MaterialIcons name="lock" size={24} color="#6B7280" style={styles.inputIcon} />
+//           <TextInput
+//             style={styles.input}
+//             placeholder="Password"
+//             value={password}
+//             onChangeText={setPassword}
+//             secureTextEntry={!showPassword}
+//             placeholderTextColor="#9CA3AF"
+//           />
+//           <TouchableOpacity
+//             style={styles.eyeIcon}
+//             onPress={() => setShowPassword(!showPassword)}
+//           >
+//             <MaterialIcons
+//               name={showPassword ? 'visibility' : 'visibility-off'}
+//               size={24}
+//               color="#6B7280"
+//             />
+//           </TouchableOpacity>
+//         </Animated.View>
+
+//         {/* Login Button */}
+//         <TouchableOpacity
+//           style={[styles.button, loading && styles.buttonDisabled]}
+//           onPress={handleLogin}
+//           disabled={loading}
+//         >
+//           {loading ? (
+//             <ActivityIndicator size="small" color="#fff" />
+//           ) : (
+//             <>
+//               <MaterialIcons name="login" size={20} color="#fff" />
+//               <Text style={styles.buttonText}>Login</Text>
+//             </>
+//           )}
+//         </TouchableOpacity>
+
+//         {/* Register Link */}
+//         <TouchableOpacity >
+//           <Text style={styles.registerLink}>
+//             Don't have an account? <Text style={styles.registerLinkBold}>Register</Text>
+//           </Text>
+//         </TouchableOpacity>
+//       </Animated.View>
+//     </LinearGradient>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   formContainer: {
+//     width: '90%',
+//     maxWidth: 400,
+//     backgroundColor: '#fff',
+//     borderRadius: 16,
+//     padding: 24,
+//     elevation: 8,
+//     shadowColor: '#000',
+//     shadowOffset: { width: 0, height: 4 },
+//     shadowOpacity: 0.2,
+//     shadowRadius: 6,
+//   },
+//   logoContainer: {
+//     alignItems: 'center',
+//     marginBottom: 32,
+//   },
+//   logo: {
+//     width: 130,
+//     height: 130,
+//     borderRadius: 50,
+//     marginBottom: 16,
+//   },
+//   title: {
+//     fontSize: 28,
+//     fontWeight: '700',
+//     color: '#1F2937',
+//     textAlign: 'center',
+//   },
+//   subtitle: {
+//     fontSize: 14,
+//     fontWeight: '400',
+//     color: '#6B7280',
+//     textAlign: 'center',
+//     marginTop: 8,
+//   },
+//   inputContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     backgroundColor: '#F9FAFB',
+//     borderWidth: 1,
+//     borderColor: '#D1D5DB',
+//     borderRadius: 12,
+//     marginBottom: 16,
+//     paddingHorizontal: 12,
+//   },
+//   inputIcon: {
+//     marginRight: 8,
+//   },
+//   input: {
+//     flex: 1,
+//     fontSize: 16,
+//     color: '#1F2937',
+//     paddingVertical: 12,
+//   },
+//   eyeIcon: {
+//     padding: 8,
+//   },
+//   button: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     backgroundColor: '#007AFF',
+//     paddingVertical: 14,
+//     borderRadius: 12,
+//     marginTop: 8,
+//     gap: 8,
+//   },
+//   buttonDisabled: {
+//     backgroundColor: '#60A5FA',
+//     opacity: 0.7,
+//   },
+//   buttonText: {
+//     fontSize: 16,
+//     fontWeight: '600',
+//     color: '#fff',
+//   },
+//   registerLink: {
+//     fontSize: 14,
+//     color: '#6B7280',
+//     textAlign: 'center',
+//     marginTop: 20,
+//   },
+//   registerLinkBold: {
+//     fontWeight: '600',
+//     color: '#007AFF',
+//   },
+// });
+
+// export default Login;
+
+
+
+
+
+
+
+"use client"
+
+import { BASE_URL } from "@/Api/BASE_URL.js"
+import { MaterialIcons } from "@expo/vector-icons"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import axios from "axios"
+import { LinearGradient } from "expo-linear-gradient"
+import { useEffect, useRef, useState } from "react"
 import {
   ActivityIndicator,
   Alert,
   Animated,
+  Dimensions,
   Image,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
+} from "react-native"
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get("window")
+
+// Enhanced responsive helper functions
+const getResponsiveWidth = (percentage) => (screenWidth * percentage) / 100
+const getResponsiveHeight = (percentage) => (screenHeight * percentage) / 100
+const getResponsiveFontSize = (size) => {
+  const scale = screenWidth / 375 // Base width (iPhone X)
+  const newSize = size * scale
+  return Math.max(Math.min(newSize, size * 1.3), size * 0.8) // Limit scaling between 0.8x and 1.3x
+}
+const getResponsivePadding = (size) => {
+  const scale = screenWidth / 375
+  return Math.max(Math.min(size * scale, size * 1.2), size * 0.7)
+}
+
+// Device type detection
+const isSmallPhone = screenWidth < 350
+const isPhone = screenWidth < 768
+const isTablet = screenWidth >= 768 && screenWidth < 1024
+const isLargeTablet = screenWidth >= 1024
+const isLandscape = screenWidth > screenHeight
+const isShortScreen = screenHeight < 700
+
+// Responsive dimensions
+const FORM_WIDTH = isTablet ? getResponsiveWidth(60) : getResponsiveWidth(90)
+const MAX_FORM_WIDTH = isTablet ? 500 : 400
+const LOGO_SIZE = isShortScreen ? getResponsiveWidth(20) : getResponsiveWidth(25)
+const INPUT_HEIGHT = getResponsiveHeight(6.5)
 
 const Login = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [emailFocused, setEmailFocused] = useState(false)
+  const [passwordFocused, setPasswordFocused] = useState(false)
+
+  // Refs for TextInputs
+  const emailInputRef = useRef(null)
+  const passwordInputRef = useRef(null)
 
   // Animation setup
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(50)).current;
-  const inputScaleAnim = useRef(new Animated.Value(0.95)).current;
+  const fadeAnim = useRef(new Animated.Value(0)).current
+  const slideAnim = useRef(new Animated.Value(50)).current
+  const inputScaleAnim = useRef(new Animated.Value(0.95)).current
+  const logoScaleAnim = useRef(new Animated.Value(0.8)).current
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const token = await AsyncStorage.getItem('jwtToken');
-        const userData = await AsyncStorage.getItem('user');
-        console.log(userData);
-
+        const token = await AsyncStorage.getItem("jwtToken")
+        const userData = await AsyncStorage.getItem("user")
+        console.log(userData)
         if (token && userData) {
-          navigation.replace('Home');
+          navigation.replace("Home")
         } else {
-          Animated.parallel([
-            Animated.timing(fadeAnim, {
-              toValue: 1,
-              duration: 800,
-              useNativeDriver: true,
-            }),
-            Animated.timing(slideAnim, {
-              toValue: 0,
-              duration: 800,
-              useNativeDriver: true,
-            }),
-            Animated.spring(inputScaleAnim, {
-              toValue: 1,
-              friction: 8,
-              tension: 40,
-              useNativeDriver: true,
-            }),
-          ]).start();
+          startAnimations()
         }
       } catch (error) {
-        console.error('Error checking login status:', error);
-        Animated.parallel([
-          Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 800,
-            useNativeDriver: true,
-          }),
-          Animated.timing(slideAnim, {
-            toValue: 0,
-            duration: 800,
-            useNativeDriver: true,
-          }),
-          Animated.spring(inputScaleAnim, {
-            toValue: 1,
-            friction: 8,
-            tension: 40,
-            useNativeDriver: true,
-          }),
-        ]).start();
+        console.error("Error checking login status:", error)
+        startAnimations()
       }
-    };
+    }
 
-    checkLoginStatus();
-  }, [navigation, fadeAnim, slideAnim, inputScaleAnim]);
+    const startAnimations = () => {
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.spring(inputScaleAnim, {
+          toValue: 1,
+          friction: 8,
+          tension: 40,
+          useNativeDriver: true,
+        }),
+        Animated.spring(logoScaleAnim, {
+          toValue: 1,
+          friction: 6,
+          tension: 30,
+          useNativeDriver: true,
+        }),
+      ]).start()
+    }
+
+    checkLoginStatus()
+  }, [navigation, fadeAnim, slideAnim, inputScaleAnim, logoScaleAnim])
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
-      return;
+      Alert.alert("Error", "Please fill in all fields")
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
     try {
       const response = await axios.post(`${BASE_URL}/auth/login`, {
         email,
         password,
-      });
+      })
 
-      const { jwtToken, admin } = response.data;
+      const { jwtToken, admin } = response.data
 
       try {
-        await AsyncStorage.setItem('jwtToken', jwtToken);
-        await AsyncStorage.setItem('user', JSON.stringify(admin));
-
-        navigation.replace('Home', {email});
+        await AsyncStorage.setItem("jwtToken", jwtToken)
+        await AsyncStorage.setItem("user", JSON.stringify(admin))
+        navigation.replace("Home", { email })
       } catch (storageError) {
-        throw new Error('Failed to store authentication data');
+        throw new Error("Failed to store authentication data")
       }
     } catch (error) {
-      setLoading(false);
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        'Login failed. Please try again.';
-      Alert.alert('Login Error', errorMessage);
+      setLoading(false)
+      const errorMessage = error.response?.data?.message || error.message || "Login failed. Please try again."
+      Alert.alert("Login Error", errorMessage)
     }
-  };
+  }
+
+  const handleInputFocus = (inputType) => {
+    if (inputType === "email") {
+      setEmailFocused(true)
+    } else {
+      setPasswordFocused(true)
+    }
+  }
+
+  const handleInputBlur = (inputType) => {
+    if (inputType === "email") {
+      setEmailFocused(false)
+    } else {
+      setPasswordFocused(false)
+    }
+  }
+
+  // Function to focus input when container is pressed
+  const focusInput = (inputRef) => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }
 
   return (
-    <LinearGradient
-      colors={['#007AFF', '#004C99']}
-      style={styles.container}
-    >
-      <Animated.View
-        style={[
-          styles.formContainer,
-          {
-            opacity: fadeAnim,
-            transform: [{ translateY: slideAnim }],
-          },
-        ]}
-      >
-        {/* Logo Placeholder */}
-        <View style={styles.logoContainer}>
-          <Image
-            source={{ uri: 'https://via.placeholder.com/100' }} // Replace with actual logo URL
-            style={styles.logo}
-          />
-          <Text style={styles.title}>AG Construction</Text>
-          <Text style={styles.subtitle}>Sign in to manage properties</Text>
-        </View>
-
-        {/* Email Input */}
-        <Animated.View style={[styles.inputContainer, { transform: [{ scale: inputScaleAnim }] }]}>
-          <MaterialIcons name="email" size={24} color="#6B7280" style={styles.inputIcon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholderTextColor="#9CA3AF"
-          />
-        </Animated.View>
-
-        {/* Password Input */}
-        <Animated.View style={[styles.inputContainer, { transform: [{ scale: inputScaleAnim }] }]}>
-          <MaterialIcons name="lock" size={24} color="#6B7280" style={styles.inputIcon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-            placeholderTextColor="#9CA3AF"
-          />
-          <TouchableOpacity
-            style={styles.eyeIcon}
-            onPress={() => setShowPassword(!showPassword)}
+    <SafeAreaView style={styles.safeArea}>
+      <LinearGradient colors={["#007AFF", "#004C99"]} style={styles.container}>
+        <KeyboardAvoidingView style={styles.keyboardView} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            bounces={false}
           >
-            <MaterialIcons
-              name={showPassword ? 'visibility' : 'visibility-off'}
-              size={24}
-              color="#6B7280"
-            />
-          </TouchableOpacity>
-        </Animated.View>
+            <Animated.View
+              style={[
+                styles.formContainer,
+                {
+                  opacity: fadeAnim,
+                  transform: [{ translateY: slideAnim }],
+                },
+              ]}
+            >
+              {/* Logo Section */}
+              <Animated.View
+                style={[
+                  styles.logoContainer,
+                  {
+                    transform: [{ scale: logoScaleAnim }],
+                  },
+                ]}
+              >
+                <View style={styles.logoWrapper}>
+                  <Image
+                    source={require("@/assets/images/agconstruction-1.png")}
+                    style={styles.logo}
+                    resizeMode="cover"
+                  />
+                </View>
+                <Text style={styles.title}>AG Construction</Text>
+                <Text style={styles.subtitle}>Sign in to manage properties</Text>
+              </Animated.View>
 
-        {/* Login Button */}
-        <TouchableOpacity
-          style={[styles.button, loading && styles.buttonDisabled]}
-          onPress={handleLogin}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator size="small" color="#fff" />
-          ) : (
-            <>
-              <MaterialIcons name="login" size={20} color="#fff" />
-              <Text style={styles.buttonText}>Login</Text>
-            </>
-          )}
-        </TouchableOpacity>
+              {/* Form Section */}
+              <View style={styles.formSection}>
+                {/* Email Input */}
+                <Animated.View style={[styles.inputWrapper, { transform: [{ scale: inputScaleAnim }] }]}>
+                  <TouchableOpacity
+                    style={[styles.inputContainer, emailFocused && styles.inputContainerFocused]}
+                    onPress={() => focusInput(emailInputRef)}
+                    activeOpacity={1}
+                  >
+                    <MaterialIcons
+                      name="email"
+                      size={getResponsiveFontSize(20)}
+                      color={emailFocused ? "#007AFF" : "#6B7280"}
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      ref={emailInputRef}
+                      style={styles.input}
+                      placeholder="Email Address"
+                      value={email}
+                      onChangeText={setEmail}
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      placeholderTextColor="#9CA3AF"
+                      onFocus={() => handleInputFocus("email")}
+                      onBlur={() => handleInputBlur("email")}
+                      returnKeyType="next"
+                      onSubmitEditing={() => focusInput(passwordInputRef)}
+                      blurOnSubmit={false}
+                    />
+                  </TouchableOpacity>
+                </Animated.View>
 
-        {/* Register Link */}
-        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.registerLink}>
-            Don't have an account? <Text style={styles.registerLinkBold}>Register</Text>
-          </Text>
-        </TouchableOpacity>
-      </Animated.View>
-    </LinearGradient>
-  );
-};
+                {/* Password Input */}
+                <Animated.View style={[styles.inputWrapper, { transform: [{ scale: inputScaleAnim }] }]}>
+                  <TouchableOpacity
+                    style={[styles.inputContainer, passwordFocused && styles.inputContainerFocused]}
+                    onPress={() => focusInput(passwordInputRef)}
+                    activeOpacity={1}
+                  >
+                    <MaterialIcons
+                      name="lock"
+                      size={getResponsiveFontSize(20)}
+                      color={passwordFocused ? "#007AFF" : "#6B7280"}
+                      style={styles.inputIcon}
+                    />
+                    <TextInput
+                      ref={passwordInputRef}
+                      style={styles.input}
+                      placeholder="Password"
+                      value={password}
+                      onChangeText={setPassword}
+                      secureTextEntry={!showPassword}
+                      placeholderTextColor="#9CA3AF"
+                      onFocus={() => handleInputFocus("password")}
+                      onBlur={() => handleInputBlur("password")}
+                      returnKeyType="done"
+                      onSubmitEditing={handleLogin}
+                    />
+                    <TouchableOpacity
+                      style={styles.eyeIcon}
+                      onPress={() => setShowPassword(!showPassword)}
+                      activeOpacity={0.7}
+                    >
+                      <MaterialIcons
+                        name={showPassword ? "visibility" : "visibility-off"}
+                        size={getResponsiveFontSize(20)}
+                        color="#6B7280"
+                      />
+                    </TouchableOpacity>
+                  </TouchableOpacity>
+                </Animated.View>
+
+                {/* Login Button */}
+                <TouchableOpacity
+                  style={[styles.button, loading && styles.buttonDisabled]}
+                  onPress={handleLogin}
+                  disabled={loading}
+                  activeOpacity={0.8}
+                >
+                  {loading ? (
+                    <View style={styles.loadingContent}>
+                      <ActivityIndicator size="small" color="#fff" />
+                      <Text style={styles.buttonText}>Signing In...</Text>
+                    </View>
+                  ) : (
+                    <View style={styles.buttonContent}>
+                      <MaterialIcons name="login" size={getResponsiveFontSize(18)} color="#fff" />
+                      <Text style={styles.buttonText}>Sign In</Text>
+                    </View>
+                  )}
+                </TouchableOpacity>
+
+                {/* Register Link */}
+                <TouchableOpacity style={styles.registerContainer} activeOpacity={0.8}>
+                  <Text style={styles.registerLink}>
+                    Don't have an account?{" "}
+                    <Text style={styles.registerLinkBold} onPress={() => console.log("Navigate to register")}>
+                      Register
+                    </Text>
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* Footer */}
+              <View style={styles.footer}>
+                <Text style={styles.footerText}>Secure • Reliable • Professional</Text>
+              </View>
+            </Animated.View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </LinearGradient>
+    </SafeAreaView>
+  )
+}
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  },
+  keyboardView: {
+    flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: getResponsiveHeight(5),
+    paddingHorizontal: getResponsiveWidth(5),
   },
   formContainer: {
-    width: '90%',
-    maxWidth: 400,
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 24,
-    elevation: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
+    width: FORM_WIDTH,
+    maxWidth: MAX_FORM_WIDTH,
+    backgroundColor: "#fff",
+    borderRadius: getResponsiveWidth(4),
+    padding: getResponsivePadding(24),
+    elevation: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
   },
   logoContainer: {
-    alignItems: 'center',
-    marginBottom: 32,
+    alignItems: "center",
+    marginBottom: getResponsiveHeight(4),
+  },
+  logoWrapper: {
+    width: LOGO_SIZE,
+    height: LOGO_SIZE,
+    borderRadius: LOGO_SIZE / 2,
+    backgroundColor: "#f8fafc",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: getResponsiveHeight(2),
+    shadowColor: "#007AFF",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
   },
   logo: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 16,
+    width: LOGO_SIZE * 0.8,
+    height: LOGO_SIZE * 0.8,
+    borderRadius: (LOGO_SIZE * 0.8) / 2,
   },
   title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: '#1F2937',
-    textAlign: 'center',
+    fontSize: getResponsiveFontSize(28),
+    fontWeight: "800",
+    color: "#1F2937",
+    textAlign: "center",
+    letterSpacing: -0.5,
+    marginBottom: getResponsiveHeight(0.5),
   },
   subtitle: {
-    fontSize: 14,
-    fontWeight: '400',
-    color: '#6B7280',
-    textAlign: 'center',
-    marginTop: 8,
+    fontSize: getResponsiveFontSize(16),
+    fontWeight: "500",
+    color: "#6B7280",
+    textAlign: "center",
+    lineHeight: getResponsiveHeight(2.5),
+  },
+  formSection: {
+    marginBottom: getResponsiveHeight(2),
+  },
+  inputWrapper: {
+    marginBottom: getResponsiveHeight(2),
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F9FAFB',
-    borderWidth: 1,
-    borderColor: '#D1D5DB',
-    borderRadius: 12,
-    marginBottom: 16,
-    paddingHorizontal: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F9FAFB",
+    borderWidth: 2,
+    borderColor: "#E5E7EB",
+    borderRadius: getResponsiveWidth(3),
+    paddingHorizontal: getResponsivePadding(16),
+    minHeight: INPUT_HEIGHT,
+  },
+  inputContainerFocused: {
+    borderColor: "#007AFF",
+    backgroundColor: "#F0F8FF",
+    shadowColor: "#007AFF",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   inputIcon: {
-    marginRight: 8,
+    marginRight: getResponsiveWidth(3),
   },
   input: {
     flex: 1,
-    fontSize: 16,
-    color: '#1F2937',
-    paddingVertical: 12,
+    fontSize: getResponsiveFontSize(16),
+    color: "#1F2937",
+    fontWeight: "500",
+    paddingVertical: getResponsivePadding(12),
+    // Remove any padding that might interfere with touch
+    paddingHorizontal: 0,
   },
   eyeIcon: {
-    padding: 8,
+    padding: getResponsivePadding(8),
+    borderRadius: getResponsiveWidth(2),
+    // Ensure the eye icon doesn't interfere with input
+    marginLeft: getResponsiveWidth(1),
   },
   button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#007AFF',
-    paddingVertical: 14,
-    borderRadius: 12,
-    marginTop: 8,
-    gap: 8,
+    backgroundColor: "#007AFF",
+    paddingVertical: getResponsivePadding(16),
+    borderRadius: getResponsiveWidth(3),
+    marginTop: getResponsiveHeight(1),
+    shadowColor: "#007AFF",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+    minHeight: getResponsiveHeight(7),
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonDisabled: {
-    backgroundColor: '#60A5FA',
-    opacity: 0.7,
+    backgroundColor: "#93C5FD",
+    shadowOpacity: 0.1,
+  },
+  buttonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: getResponsiveWidth(2),
+  },
+  loadingContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: getResponsiveWidth(3),
   },
   buttonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#fff',
+    fontSize: getResponsiveFontSize(18),
+    fontWeight: "700",
+    color: "#fff",
+    letterSpacing: 0.5,
+  },
+  registerContainer: {
+    marginTop: getResponsiveHeight(3),
+    paddingVertical: getResponsivePadding(8),
   },
   registerLink: {
-    fontSize: 14,
-    color: '#6B7280',
-    textAlign: 'center',
-    marginTop: 20,
+    fontSize: getResponsiveFontSize(15),
+    color: "#6B7280",
+    textAlign: "center",
+    fontWeight: "500",
   },
   registerLinkBold: {
-    fontWeight: '600',
-    color: '#007AFF',
+    fontWeight: "700",
+    color: "#007AFF",
   },
-});
+  footer: {
+    marginTop: getResponsiveHeight(2),
+    paddingTop: getResponsivePadding(16),
+    borderTopWidth: 1,
+    borderTopColor: "#F3F4F6",
+    alignItems: "center",
+  },
+  footerText: {
+    fontSize: getResponsiveFontSize(12),
+    color: "#9CA3AF",
+    fontWeight: "500",
+    textAlign: "center",
+    letterSpacing: 0.5,
+  },
+})
 
-export default Login;
+export default Login

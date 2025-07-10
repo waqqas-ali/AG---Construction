@@ -652,18 +652,17 @@ import { useNavigation, useRoute } from "@react-navigation/native"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import {
-    Alert,
-    Dimensions,
-    FlatList,
-    Modal,
-    Platform,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Alert,
+  Dimensions,
+  FlatList,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native"
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window")
@@ -891,7 +890,7 @@ const Flat_List = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      {/* <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" /> */}
 
       {/* Header */}
       <View style={styles.header}>

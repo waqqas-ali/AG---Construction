@@ -86,9 +86,11 @@ const App = () => {
             <Stack.Screen name="Salary Slip" component={Salary_Slip} />
             <Stack.Screen name="Allotment Letter" component={Allotment_Letter} />
             <Stack.Screen name="Demand Letter" component={Demand_Letter} />
-            <Stack.Screen name="letter Heades" component={letter_Heades} />
+            <Stack.Screen name="Letter Headers" component={letter_Heades} />
             <Stack.Screen name="Noc Letter" component={Noc_Letter} />
             <Stack.Screen name="Possession Letter" component={Possession_Letter} />
+            {/* <Stack.Screen name="letter Heades" component={letter_Heades} /> */}
+
 
         </Stack.Navigator>
     </NavigationContainer>

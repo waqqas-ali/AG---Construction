@@ -888,17 +888,16 @@ import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    Dimensions,
-    FlatList,
-    Platform,
-    RefreshControl,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  Platform,
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
@@ -1138,7 +1137,7 @@ const All_Customer = () => {
   if (loading) {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+        {/* <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" /> */}
         {renderLoadingState()}
       </SafeAreaView>
     );
@@ -1147,15 +1146,15 @@ const All_Customer = () => {
   if (error && !refreshing) {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+        {/* <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" /> */}
         {renderErrorState()}
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+    <View style={styles.container}>
+      {/* <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" /> */}
       
       {/* Header */}
       <LinearGradient
@@ -1207,7 +1206,7 @@ const All_Customer = () => {
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -1217,6 +1216,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F2F5',
   },
   header: {
+    paddingTop : 35,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,

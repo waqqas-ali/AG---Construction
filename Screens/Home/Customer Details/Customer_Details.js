@@ -5,17 +5,16 @@ import axios from "axios"
 import { LinearGradient } from "expo-linear-gradient"
 import { useEffect, useState } from "react"
 import {
-    ActivityIndicator,
-    Alert,
-    Dimensions,
-    FlatList,
-    RefreshControl,
-    SafeAreaView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  FlatList,
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from "react-native"
 import { RFPercentage } from "react-native-responsive-fontsize"
 
@@ -159,7 +158,7 @@ const Customer_Details = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      {/* <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" /> */}
       <LinearGradient colors={["#F8F9FA", "#FFFFFF"]} style={styles.backgroundGradient}>
         <FlatList
           data={projects}
@@ -188,7 +187,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     paddingHorizontal: width * 0.05,
-    paddingTop: 20,
+    paddingTop: 30,
     paddingBottom: 24,
   },
   title: {
