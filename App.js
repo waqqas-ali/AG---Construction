@@ -15,9 +15,11 @@ import Land_Management from './Screens/Home/Land Management/Land_Management.js';
 import Pay_Partner from './Screens/Home/Land Management/Pay_Partner.js';
 import View_Partner_Transactions from './Screens/Home/Land Management/View_Partner_Transactions.js';
 
+import EditCustomerDetails from './Screens/Home/Flat Management/EditCustomerDetails.js';
 import Flat_Management from './Screens/Home/Flat Management/Flat_Management.js';
 import FlatList from './Screens/Home/Flat Management/FlatList.js';
 import FlatOwner from './Screens/Home/Flat Management/FlatOwner.js'; // Assuming this is a valid import, if not, remove it
+import ViewInstallments from './Screens/Home/Flat Management/ViewInstallments.js';
 
 import Add_Edit_Lead from './Screens/Home/Lead Management/Add_Edit_Lead.js';
 import Lead_Management from './Screens/Home/Lead Management/Lead_Management.js';
@@ -67,6 +69,8 @@ const App = () => {
             <Stack.Screen name="Flat_Management" component={Flat_Management} />
             <Stack.Screen name="FlatList" component={FlatList} />
             <Stack.Screen name="FlatOwner" component={FlatOwner} />
+            <Stack.Screen name="ViewInstallments" component={ViewInstallments} />
+            <Stack.Screen name="EditCustomerDetails" component={EditCustomerDetails} />
 
             <Stack.Screen name="Lead_Management" component={Lead_Management} />
             <Stack.Screen name="Add_Edit_Lead" component={Add_Edit_Lead} />
@@ -89,7 +93,6 @@ const App = () => {
             <Stack.Screen name="Letter Headers" component={letter_Heades} />
             <Stack.Screen name="Noc Letter" component={Noc_Letter} />
             <Stack.Screen name="Possession Letter" component={Possession_Letter} />
-            {/* <Stack.Screen name="letter Heades" component={letter_Heades} /> */}
 
 
         </Stack.Navigator>
