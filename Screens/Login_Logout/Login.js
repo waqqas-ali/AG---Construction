@@ -2700,7 +2700,7 @@ const Login = ({ navigation }) => {
         const userData = await AsyncStorage.getItem("user")
         console.log(userData)
         if (token && userData) {
-          navigation.replace("Home")
+          navigation.replace("Home", { email: email })
         } else {
           startAnimations()
         }
