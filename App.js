@@ -11,6 +11,7 @@ import Structure_Management from './Screens/Home/Structure/Structure_Management.
 
 import Add_Edit_Land from './Screens/Home/Land Management/Add_Edit_Land.js';
 import Add_Edit_Partners from './Screens/Home/Land Management/Add_Edit_Partners.js';
+import Expenses from './Screens/Home/Land Management/Expenses.js';
 import Land_Management from './Screens/Home/Land Management/Land_Management.js';
 import Pay_Partner from './Screens/Home/Land Management/Pay_Partner.js';
 import View_Partner_Transactions from './Screens/Home/Land Management/View_Partner_Transactions.js';
@@ -65,6 +66,7 @@ const App = () => {
             <Stack.Screen name="Add_Edit_Partners" component={Add_Edit_Partners} />
             <Stack.Screen name="View_Partner_Transactions" component={View_Partner_Transactions} />
             <Stack.Screen name="Pay_Partner" component={Pay_Partner} />
+            <Stack.Screen name="Expenses" component={Expenses} />
 
             <Stack.Screen name="Flat_Management" component={Flat_Management} />
             <Stack.Screen name="FlatList" component={FlatList} />

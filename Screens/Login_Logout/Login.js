@@ -2697,9 +2697,9 @@ const Login = ({ navigation }) => {
     const checkLoginStatus = async () => {
       try {
         const token = await AsyncStorage.getItem("jwtToken")
-        const userData = await AsyncStorage.getItem("user")
-        console.log(userData)
-        if (token && userData) {
+        const data = await AsyncStorage.getItem("data")
+        console.log(data)
+        if (token && data) {
           navigation.replace("Home", { email: email })
         } else {
           startAnimations()
@@ -2752,12 +2752,12 @@ const Login = ({ navigation }) => {
         email,
         password,
       })
-
-      const { jwtToken, admin } = response.data
+      const { jwtToken, ...data } = response.data;
+      console.log(data);
 
       try {
         await AsyncStorage.setItem("jwtToken", jwtToken)
-        await AsyncStorage.setItem("user", JSON.stringify(admin))
+        await AsyncStorage.setItem("data", JSON.stringify(data))
         navigation.replace("Home", { email })
       } catch (storageError) {
         throw new Error("Failed to store authentication data")
