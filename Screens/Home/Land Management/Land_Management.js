@@ -1864,13 +1864,13 @@ const Land_Management = ({ navigation }) => {
           />
           <InfoRow
             icon="person-outline"
-            label="Owner"
-            value={`${item.owner?.name || "N/A"} (${item.owner?.phoneNumber || "N/A"})`}
+            label="Updated By"
+            value={`${item.contractors?.updatedBy || "N/A"}`}
           />
           <InfoRow
             icon="business-outline"
             label="Purchaser"
-            value={`${item.purchaser?.name || "N/A"} (${item.purchaser?.phoneNumber || "N/A"})`}
+            value={`${item.purchaser?.name || "N/A"}`}
           />
           <InfoRow icon="calendar-outline" label="Added On" value={formatDate(item.landAddOnDate)} />
           <InfoRow

@@ -1,122 +1,130 @@
+// import { ag } from '@/assets/images/ag.js';
+// import infraLogo from '@/assets/images/agconstruction-1.png';
 // import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 // import { BlurView } from 'expo-blur';
 // import { LinearGradient } from 'expo-linear-gradient';
 // import * as Print from 'expo-print';
 // import * as Sharing from 'expo-sharing';
-// import React, { useMemo, useRef, useState } from 'react';
+// import React, { useRef, useState } from 'react';
 // import {
 //   Animated,
 //   Dimensions,
 //   Image,
 //   Modal,
+//   Platform,
 //   ScrollView,
 //   StyleSheet,
 //   Text,
 //   TouchableOpacity,
 //   View
 // } from 'react-native';
-// import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-// // Assuming separate logo files
-// import { default as infraLogo, default as loanLogo } from '@/assets/images/ag.js';
 
 // const { width } = Dimensions.get('window');
 
-// // Centralized contact information
-// const CONTACT_INFO = {
-//   address: [
-//     'Plot 62, Hudkeshwar Rd, near Rakshak Fresh Mart, Ingole Nagar, Nagpur, Maharashtra 440034',
-//   ],
-//   email: 'agconstructions220@gmail.com',
-//   website: 'www.agconstructionnagpur.in',
-//   phone: '+91 7620419075',
-// };
+// const LetterHeaders = () => {
+//   const scaleAnim1 = useRef(new Animated.Value(1)).current;
+//   const scaleAnim2 = useRef(new Animated.Value(1)).current;
+//   const [infraLetterHead, setInfraLetterHead] = useState(false);
+//   const [loanLetterHead, setLoanLetterHead] = useState(false);
 
-// const LetterHeadModal = ({ visible, onClose, type, logo }) => {
-//   const [isGenerating, setIsGenerating] = useState(false);
+//   const animatePress = (anim) => {
+//     Animated.sequence([
+//       Animated.timing(anim, {
+//         toValue: 0.95,
+//         duration: 100,
+//         useNativeDriver: true,
+//       }),
+//       Animated.timing(anim, {
+//         toValue: 1,
+//         duration: 100,
+//         useNativeDriver: true,
+//       }),
+//     ]).start();
+//   };
 
-//   const html = useMemo(() => `
-//     <!DOCTYPE html>
-//     <html>
-//     <head>
-//       <style>
-//         body {
-//           font-family: Arial, sans-serif;
-//           max-width: 800px;
-//           margin: 20px auto;
-//           padding: 20px;
-//           line-height: 1.8;
-//         }
-//         .header {
-//           display: flex;
-//           justify-content: space-between;
-//           align-items: center;
-//           margin-bottom: 20px;
-//         }
-//         .logo {
-//           height: 80px;
-//           width: auto;
-//         }
-//         .contact-info {
-//           text-align: right;
-//           font-size: 14px;
-//           color: #000;
-//         }
-//         .contact-row {
-//           display: flex;
-//           justify-content: flex-end;
-//           align-items: center;
-//           margin-bottom: 5px;
-//         }
-//         .icon-box {
-//           background-color: #d34508;
-//           padding: 8px;
-//           border-radius: 2px;
-//           margin-left: 10px;
-//         }
-//         .divider {
-//           border-top: 1px solid rgb(167, 5, 86);
-//           margin-bottom: 2px;
-//         }
-//         .divider-thick {
-//           border-top: 3px solid rgb(167, 5, 86);
-//         }
-//       </style>
-//     </head>
-//     <body>
-//       <div class="header">
-//         <img src="${logo}" alt="ROYAALMEDE" class="logo">
-//         <div class="contact-info">
-//           <div class="contact-row">
-//             <div>
-//               <p>${CONTACT_INFO.address[0]}</p>
+//   const generatePDF = async (type) => {
+//     const logoSrc = type === 'infra' ? infraLogo : loanLogo;
+//     const filename = type === 'infra' ? 'Letter_Head_infra.pdf' : 'Letter_Head_Loan.pdf';
+//     const html = `
+//       <!DOCTYPE html>
+//       <html>
+//       <head>
+//         <style>
+//           body {
+//             font-family: Arial, sans-serif;
+//             max-width: 800px;
+//             margin: 20px auto;
+//             padding: 20px;
+//             line-height: 1.8;
+//           }
+//           .header {
+//             display: flex;
+//             justify-content: space-between;
+//             align-items: center;
+//             margin-bottom: 20px;
+//           }
+//           .logo {
+//             height: 80px;
+//             width: auto;
+//           }
+//           .contact-info {
+//             text-align: right;
+//             font-size: 14px;
+//             color: #000;
+//           }
+//           .contact-row {
+//             display: flex;
+//             justify-content: flex-end;
+//             align-items: center;
+//             margin-bottom: 5px;
+//           }
+//           .icon-box {
+//             background-color: #d34508;
+//             padding: 8px;
+//             border-radius: 2px;
+//             margin-left: 10px;
+//           }
+//           .divider {
+//             border-top: 1px solid rgb(167, 5, 86);
+//             margin-bottom: 2px;
+//           }
+//           .divider-thick {
+//             border-top: 3px solid rgb(167, 5, 86);
+//           }
+//         </style>
+//       </head>
+//       <body>
+//         <div class="header">
+//           <img src="${ag}" alt="ROYAALMEDE" class="logo">
+//           <div class="contact-info">
+//             <div class="contact-row">
+//               <div>
+//                 <p>Plot 62, Hudkeshwar Rd, near Rakshak Fresh Mart, Ingole Nagar,</p>
+//                 <p>Hudkeshwar Road, Nagpur - 440034</p>
+//               </div>
+//               <div class="icon-box"><i class="fa fa-map-marker"></i></div>
 //             </div>
-//             <div class="icon-box"><span>📍</span></div>
-//           </div>
-//           <div class="contact-row">
-//             <p>${CONTACT_INFO.email}</p>
-//             <div class="icon-box"><span>✉️</span></div>
-//           </div>
-//           <div class="contact-row">
-//             <p>${CONTACT_INFO.website}</p>
-//             <div class="icon-box"><span>🌐</span></div>
-//           </div>
-//           <div class="contact-row">
-//             <p>${CONTACT_INFO.phone}</p>
-//             <div class="icon-box"><span>📞</span></div>
+//             <div class="contact-row">
+//               <p>agconstructions220@gmail.com</p>
+//               <div class="icon-box"><i class="fa fa-envelope"></i></div>
+//             </div>
+//             <div class="contact-row">
+//               <p>www.agconstructionnagpur.in</p>
+//               <div class="icon-box"><i class="fa fa-globe"></i></div>
+//             </div>
+//             <div class="contact-row">
+//               <p>+91 7620 419 075</p>
+//               <div class="icon-box"><i class="fa fa-phone"></i></div>
+//             </div>
 //           </div>
 //         </div>
-//       </div>
-//       <div class="divider"></div>
-//       <div class="divider-thick"></div>
-//     </body>
-//     </html>
-//   `, [logo]);
+//         <div class="divider"></div>
+//         <div class="divider-thick"></div>
+//       </body>
+//       </html>
+//     `;
 
-//   const generatePDF = async () => {
-//     setIsGenerating(true);
 //     try {
-//       const filename = type === 'infra' ? 'Letter_Head_infra.pdf' : 'Letter_Head_Loan.pdf';
 //       const { uri } = await Print.printToFileAsync({ html });
 //       if (await Sharing.isAvailableAsync()) {
 //         await Sharing.shareAsync(uri, { dialogTitle: `Share ${filename}` });
@@ -124,122 +132,17 @@
 //         alert('Sharing is not available on this device.');
 //       }
 //     } catch (error) {
-//       console.error('Error generating PDF:', error.message);
-//       alert(`Failed to generate PDF: ${error.message}`);
-//     } finally {
-//       setIsGenerating(false);
+//       console.error('Error generating PDF:', error);
+//       alert('Failed to generate PDF.');
 //     }
-//   };
-
-//   return (
-//     <Modal
-//       animationType="slide"
-//       transparent={true}
-//       visible={visible}
-//       onRequestClose={onClose}
-//     >
-//       <View style={styles.modalContainer}>
-//         <BlurView intensity={90} style={styles.modalBlur}>
-//           <ScrollView contentContainerStyle={styles.modalContent}>
-//             <View style={styles.letterHeadContainer}>
-//               <View style={styles.letterHeadButtons}>
-//                 <TouchableOpacity
-//                   style={[styles.downloadButton, isGenerating && styles.disabledButton]}
-//                   onPress={generatePDF}
-//                   disabled={isGenerating}
-//                   accessible={true}
-//                   accessibilityLabel={`Download ${type} letterhead as PDF`}
-//                   accessibilityRole="button"
-//                 >
-//                   <Text style={styles.downloadButtonText}>
-//                     {isGenerating ? 'Generating...' : 'Download PDF'}
-//                   </Text>
-//                 </TouchableOpacity>
-//                 <TouchableOpacity
-//                   style={styles.closeButton}
-//                   onPress={onClose}
-//                   accessible={true}
-//                   accessibilityLabel="Close modal"
-//                   accessibilityRole="button"
-//                 >
-//                   <Text style={styles.closeButtonText}>Close</Text>
-//                 </TouchableOpacity>
-//               </View>
-//               <View style={styles.letterHeadContent}>
-//                 <View style={styles.headerContainerModal}>
-//                   <Image source={logo} style={styles.logo} resizeMode="contain" />
-//                   <View style={styles.contactInfo}>
-//                     <View style={styles.contactRow}>
-//                       <View>
-//                         {CONTACT_INFO.address.map((line, index) => (
-//                           <Text key={index} style={styles.contactText}>
-//                             {line}
-//                           </Text>
-//                         ))}
-//                       </View>
-//                       <View style={styles.iconWrapper}>
-//                         <FontAwesome name="map-marker" size={15} color="#fff" />
-//                       </View>
-//                     </View>
-//                     <View style={styles.contactRow}>
-//                       <Text style={styles.contactText}>{CONTACT_INFO.email}</Text>
-//                       <View style={styles.iconWrapper}>
-//                         <FontAwesome name="envelope" size={15} color="#fff" />
-//                       </View>
-//                     </View>
-//                     <View style={styles.contactRow}>
-//                       <Text style={styles.contactText}>{CONTACT_INFO.website}</Text>
-//                       <View style={styles.iconWrapper}>
-//                         <FontAwesome name="globe" size={15} color="#fff" />
-//                       </View>
-//                     </View>
-//                     <View style={styles.contactRow}>
-//                       <Text style={styles.contactText}>{CONTACT_INFO.phone}</Text>
-//                       <View style={styles.iconWrapper}>
-//                         <FontAwesome name="phone" size={15} color="#fff" />
-//                       </View>
-//                     </View>
-//                   </View>
-//                 </View>
-//                 <View style={styles.dividerContainer}>
-//                   <View style={[styles.divider, { borderWidth: 1 }]} />
-//                   <View style={[styles.divider, { borderWidth: 3 }]} />
-//                 </View>
-//               </View>
-//             </View>
-//           </ScrollView>
-//         </BlurView>
-//       </View>
-//     </Modal>
-//   );
-// };
-
-// const letter_Heades = () => {
-//   const insets = useSafeAreaInsets();
-//   const scaleAnim1 = useRef(new Animated.Value(1)).current;
-//   const scaleAnim2 = useRef(new Animated.Value(1)).current;
-//   const [infraLetterHead, setInfraLetterHead] = useState(false);
-//   const [loanLetterHead, setLoanLetterHead] = useState(false);
-
-//   const animatePress = (anim) => {
-//     Animated.spring(anim, {
-//       toValue: 0.95,
-//       friction: 8,
-//       tension: 100,
-//       useNativeDriver: true,
-//     }).start(() => {
-//       Animated.spring(anim, {
-//         toValue: 1,
-//         friction: 8,
-//         tension: 100,
-//         useNativeDriver: true,
-//       }).start();
-//     });
 //   };
 
 //   const ButtonComponent = ({ title, onPress, scaleAnim, gradientColors, icon }) => (
 //     <Animated.View
-//       style={[styles.buttonWrapper, { transform: [{ scale: scaleAnim }] }]}
+//       style={[
+//         styles.buttonWrapper,
+//         { transform: [{ scale: scaleAnim }] },
+//       ]}
 //     >
 //       <TouchableOpacity
 //         onPress={() => {
@@ -247,9 +150,6 @@
 //           onPress?.();
 //         }}
 //         activeOpacity={0.9}
-//         accessible={true}
-//         accessibilityLabel={`Open ${title} letterhead template`}
-//         accessibilityRole="button"
 //       >
 //         <LinearGradient
 //           colors={gradientColors}
@@ -271,12 +171,16 @@
 //   return (
 //     <LinearGradient
 //       colors={['#ffffff', '#f0f2f5']}
-//       style={[styles.container, { paddingTop: insets.top || 40 }]}
+//       style={styles.container}
 //     >
+      
+//       {/* Header Section */}
 //       <View style={styles.headerContainer}>
 //         <Text style={styles.headerText}>Letter Headers</Text>
 //         <Text style={styles.subHeaderText}>Choose your preferred template style</Text>
 //       </View>
+
+//       {/* Buttons Container */}
 //       <View style={styles.buttonsContainer}>
 //         <ButtonComponent
 //           title="AG - Construction"
@@ -286,18 +190,152 @@
 //           icon="business"
 //         />
 //       </View>
-//       <LetterHeadModal
+
+//       {/* Royaal Infra Modal */}
+//       <Modal
+//         animationType="slide"
+//         transparent={true}
 //         visible={infraLetterHead}
-//         onClose={() => setInfraLetterHead(false)}
-//         type="infra"
-//         logo={infraLogo}
-//       />
-//       <LetterHeadModal
+//         onRequestClose={() => setInfraLetterHead(false)}
+//       >
+//         <View style={styles.modalContainer}>
+//           <BlurView intensity={90} style={styles.modalBlur}>
+//             <ScrollView contentContainerStyle={styles.modalContent}>
+//               <View style={styles.letterHeadContainer}>
+//                 <View style={styles.letterHeadButtons}>
+//                   <TouchableOpacity
+//                     style={styles.downloadButton}
+//                     onPress={() => generatePDF('infra')}
+//                   >
+//                     <Text style={styles.downloadButtonText}>Download PDF</Text>
+//                   </TouchableOpacity>
+//                   <TouchableOpacity
+//                     style={styles.closeButton}
+//                     onPress={() => setInfraLetterHead(false)}
+//                   >
+//                     <Text style={styles.closeButtonText}>Close</Text>
+//                   </TouchableOpacity>
+//                 </View>
+//                 <View style={styles.letterHeadContent}>
+//                   <View style={styles.headerContainerModal}>
+//                     <Image source={infraLogo} style={styles.logo} resizeMode="contain" />
+//                     <View style={styles.contactInfo}>
+//                       <View style={styles.contactRow}>
+//                         <View>
+//                           <Text style={styles.contactText}>
+//                           Plot 62, Hudkeshwar Rd, near Rakshak Fresh Mart, Ingole Nagar,
+//                           </Text>
+//                           <Text style={styles.contactText}>
+//                             Hudkeshwar Road, Nagpur - 440034
+//                           </Text>
+//                         </View>
+//                         <View style={styles.iconWrapper}>
+//                           <FontAwesome name="map-marker" size={15} color="#fff" />
+//                         </View>
+//                       </View>
+//                       <View style={styles.contactRow}>
+//                         <Text style={styles.contactText}>agconstructions220@gmail.com</Text>
+//                         <View style={styles.iconWrapper}>
+//                           <FontAwesome name="envelope" size={15} color="#fff" />
+//                         </View>
+//                       </View>
+//                       <View style={styles.contactRow}>
+//                         <Text style={styles.contactText}>www.agconstructionnagpur.in</Text>
+//                         <View style={styles.iconWrapper}>
+//                           <FontAwesome name="globe" size={15} color="#fff" />
+//                         </View>
+//                       </View>
+//                       <View style={styles.contactRow}>
+//                         <Text style={styles.contactText}>+91 7620 419 075</Text>
+//                         <View style={styles.iconWrapper}>
+//                           <FontAwesome name="phone" size={15} color="#fff" />
+//                         </View>
+//                       </View>
+//                     </View>
+//                   </View>
+//                   <View style={styles.dividerContainer}>
+//                     <View style={[styles.divider, { borderWidth: 1 }]} />
+//                     <View style={[styles.divider, { borderWidth: 3 }]} />
+//                   </View>
+//                 </View>
+//               </View>
+//             </ScrollView>
+//           </BlurView>
+//         </View>
+//       </Modal>
+
+//       {/* Royaal Loan Modal */}
+//       <Modal
+//         animationType="slide"
+//         transparent={true}
 //         visible={loanLetterHead}
-//         onClose={() => setLoanLetterHead(false)}
-//         type="loan"
-//         logo={loanLogo}
-//       />
+//         onRequestClose={() => setLoanLetterHead(false)}
+//       >
+//         <View style={styles.modalContainer}>
+//           <BlurView intensity={90} style={styles.modalBlur}>
+//             <ScrollView contentContainerStyle={styles.modalContent}>
+//               <View style={styles.letterHeadContainer}>
+//                 <View style={styles.letterHeadButtons}>
+//                   <TouchableOpacity
+//                     style={styles.downloadButton}
+//                     onPress={() => generatePDF('loan')}
+//                   >
+//                     <Text style={styles.downloadButtonText}>Download PDF</Text>
+//                   </TouchableOpacity>
+//                   <TouchableOpacity
+//                     style={styles.closeButton}
+//                     onPress={() => setLoanLetterHead(false)}
+//                   >
+//                     <Text style={styles.closeButtonText}>Close</Text>
+//                   </TouchableOpacity>
+//                 </View>
+//                 <View style={styles.letterHeadContent}>
+//                   <View style={styles.headerContainerModal}>
+//                     {/* <Image source={loanLogo} style={styles.logo} resizeMode="contain" /> */}
+//                     <View style={styles.contactInfo}>
+//                       <View style={styles.contactRow}>
+//                         <View>
+//                           <Text style={styles.contactText}>
+//                             Plot No. 28, 1st Floor, Govind Prabhau Nagar,
+//                           </Text>
+//                           <Text style={styles.contactText}>
+//                             Hudkeshwar Road, Nagpur - 440034
+//                           </Text>
+//                         </View>
+//                         <View style={styles.iconWrapper}>
+//                           <FontAwesome name="map-marker" size={15} color="#fff" />
+//                         </View>
+//                       </View>
+//                       <View style={styles.contactRow}>
+//                         <Text style={styles.contactText}>royaalmede@gmail.com</Text>
+//                         <View style={styles.iconWrapper}>
+//                           <FontAwesome name="envelope" size={15} color="#fff" />
+//                         </View>
+//                       </View>
+//                       <View style={styles.contactRow}>
+//                         <Text style={styles.contactText}>www.royaalmede.co.in</Text>
+//                         <View style={styles.iconWrapper}>
+//                           <FontAwesome name="globe" size={15} color="#fff" />
+//                         </View>
+//                       </View>
+//                       <View style={styles.contactRow}>
+//                         <Text style={styles.contactText}>9028999253 | 9373450092</Text>
+//                         <View style={styles.iconWrapper}>
+//                           <FontAwesome name="phone" size={15} color="#fff" />
+//                         </View>
+//                       </View>
+//                     </View>
+//                   </View>
+//                   <View style={styles.dividerContainer}>
+//                     <View style={[styles.divider, { borderWidth: 1 }]} />
+//                     <View style={[styles.divider, { borderWidth: 3 }]} />
+//                   </View>
+//                 </View>
+//               </View>
+//             </ScrollView>
+//           </BlurView>
+//         </View>
+//       </Modal>
 //     </LinearGradient>
 //   );
 // };
@@ -305,6 +343,7 @@
 // const styles = StyleSheet.create({
 //   container: {
 //     flex: 1,
+//     paddingTop: Platform.OS === 'ios' ? 60 : 40,
 //   },
 //   headerContainer: {
 //     paddingHorizontal: 24,
@@ -330,7 +369,10 @@
 //   buttonWrapper: {
 //     borderRadius: 20,
 //     shadowColor: '#000',
-//     shadowOffset: { width: 0, height: 4 },
+//     shadowOffset: {
+//       width: 0,
+//       height: 4,
+//     },
 //     shadowOpacity: 0.2,
 //     shadowRadius: 5,
 //     elevation: 5,
@@ -367,7 +409,7 @@
 //   },
 //   modalBlur: {
 //     width: width * 0.9,
-//     maxWidth: '90%',
+//     maxWidth: 450,
 //     borderRadius: 15,
 //     overflow: 'hidden',
 //   },
@@ -388,10 +430,6 @@
 //     paddingVertical: 10,
 //     paddingHorizontal: 20,
 //     borderRadius: 10,
-//   },
-//   disabledButton: {
-//     backgroundColor: '#a9a9a9',
-//     opacity: 0.7,
 //   },
 //   downloadButtonText: {
 //     color: '#fff',
@@ -449,8 +487,7 @@
 //   },
 // });
 
-// export default letter_Heades;
-
+// export default LetterHeaders;
 
 
 
@@ -487,9 +524,11 @@ const { width } = Dimensions.get('window');
 
 const LetterHeaders = () => {
   const scaleAnim1 = useRef(new Animated.Value(1)).current;
-  const scaleAnim2 = useRef(new Animated.Value(1)).current;
   const [infraLetterHead, setInfraLetterHead] = useState(false);
+  
+  // Note: LoanLeterhead state and related functions are kept in case you want to implement it later
   const [loanLetterHead, setLoanLetterHead] = useState(false);
+
 
   const animatePress = (anim) => {
     Animated.sequence([
@@ -507,89 +546,173 @@ const LetterHeaders = () => {
   };
 
   const generatePDF = async (type) => {
-    const logoSrc = type === 'infra' ? infraLogo : loanLogo;
-    const filename = type === 'infra' ? 'Letter_Head_infra.pdf' : 'Letter_Head_Loan.pdf';
+    const filename = 'Letter_Head.pdf';
+    // The 'ag' import should be a base64 encoded image string for it to work in the HTML.
+    // e.g., export const ag = 'data:image/png;base64,iVBORw0KGgo...';
     const html = `
       <!DOCTYPE html>
       <html>
       <head>
+        <meta charset="UTF-8">
         <style>
+          @page {
+            margin: 0.3in;
+            size: A4;
+          }
           body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 20px auto;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
             padding: 20px;
-            line-height: 1.8;
+            color: #333;
+            line-height: 1.4;
+            font-size: 12px;
           }
-          .header {
+          .company-container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 20px;
+            gap: 20px;
           }
-          .logo {
-            height: 80px;
+          .company-logo-container {
+            flex-shrink: 0;
+          }
+          .company-logo {
+            height: 215px;
             width: auto;
           }
-          .contact-info {
-            text-align: right;
-            font-size: 14px;
-            color: #000;
+          .company-details {
+            flex: 1;
           }
-          .contact-row {
+          .company-details h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+          }
+          .detail-row {
             display: flex;
-            justify-content: flex-end;
             align-items: center;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
           }
           .icon-box {
-            background-color: #d34508;
-            padding: 8px;
-            border-radius: 2px;
-            margin-left: 10px;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
           }
-          .divider {
-            border-top: 1px solid rgb(167, 5, 86);
-            margin-bottom: 2px;
+          .detail-text {
+            margin: 0;
+            font-size: 12px;
+            color: #333;
           }
-          .divider-thick {
-            border-top: 3px solid rgb(167, 5, 86);
+          .line-thick {
+            border: none;
+            height: 2px;
+            background-color: #333;
+            margin: 15px 0;
+          }
+          .letter-title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #333;
+          }
+          .letter-details {
+            margin-top: 20px;
+          }
+          .recipient-info {
+            background-color: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+          }
+          .recipient-info p {
+            margin: 5px 0;
+            font-size: 12px;
+          }
+          .recipient-info strong {
+            color: #333;
+          }
+          .letter-content {
+            font-size: 12px;
+            line-height: 1.6;
+          }
+          .letter-content p {
+            margin-bottom: 10px;
+          }
+          .letter-content strong {
+            font-weight: bold;
+          }
+          .employment-list {
+            margin-left: 20px;
+            margin-bottom: 15px;
+          }
+          .employment-list li {
+            margin-bottom: 5px;
+          }
+          .signature {
+            margin-top: 30px;
+            text-align: left;
+            font-weight: bold;
+          }
+          .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 10px;
+            color: #666;
+          }
+          @media print {
+            body {
+              -webkit-print-color-adjust: exact;
+              print-color-adjust: exact;
+            }
           }
         </style>
       </head>
       <body>
-        <div class="header">
-          <img src="${ag}" alt="ROYAALMEDE" class="logo">
-          <div class="contact-info">
-            <div class="contact-row">
-              <div>
-                <p>Plot 62, Hudkeshwar Rd, near Rakshak Fresh Mart, Ingole Nagar,</p>
-                <p>Hudkeshwar Road, Nagpur - 440034</p>
+        <div class="company-container">
+          <div class="company-logo-container">
+            <img class="company-logo" src="${ag}" alt="AG Construction Logo">
+          </div>
+          <div class="company-details">
+            <h3>AG Construction</h3>
+            <div class="detail-row">
+              <div class="detail-text">
+                <p style="margin:0;">Plot 62, Hudkeshwar Rd, near Rakshak Fresh Mart, Ingole Nagar</p>
+                <p style="margin:0;">Hudkeshwar Road, Nagpur - 440034</p>
               </div>
-              <div class="icon-box"><i class="fa fa-map-marker"></i></div>
             </div>
-            <div class="contact-row">
-              <p>agconstructions220@gmail.com</p>
-              <div class="icon-box"><i class="fa fa-envelope"></i></div>
+            <div class="detail-row">
+              <div class="icon-box">
+                <span style="font-size: 16px;">📧</span>
+              </div>
+              <p class="detail-text">agconstructions220@gmail.com</p>
             </div>
-            <div class="contact-row">
-              <p>www.agconstructionnagpur.in</p>
-              <div class="icon-box"><i class="fa fa-globe"></i></div>
+            <div class="detail-row">
+              <div class="icon-box">
+                <span style="font-size: 16px;">🌐</span>
+              </div>
+              <p class="detail-text">www.agconstructionnagpur.in</p>
             </div>
-            <div class="contact-row">
-              <p>+91 7620 419 075</p>
-              <div class="icon-box"><i class="fa fa-phone"></i></div>
+            <div class="detail-row">
+              <div class="icon-box">
+                <span style="font-size: 16px;">📞</span>
+              </div>
+              <p class="detail-text">+91 7620 419 075</p>
             </div>
           </div>
         </div>
-        <div class="divider"></div>
-        <div class="divider-thick"></div>
+        
+        <hr class="line-thick">
       </body>
       </html>
     `;
 
     try {
-      const { uri } = await Print.printToFileAsync({ html });
+      const { uri } = await Print.printToFileAsync({ html, width: 595, height: 842 }); // A4 dimensions in points
       if (await Sharing.isAvailableAsync()) {
         await Sharing.shareAsync(uri, { dialogTitle: `Share ${filename}` });
       } else {
@@ -624,7 +747,7 @@ const LetterHeaders = () => {
           <MaterialIcons name={icon} size={24} color="white" style={styles.buttonIcon} />
           <View style={styles.buttonContent}>
             <Text style={styles.buttonText}>{title}</Text>
-            <Text style={styles.buttonSubText}>Tap to select template</Text>
+            <Text style={styles.buttonSubText}>Tap to view template</Text>
           </View>
           <MaterialIcons name="arrow-forward-ios" size={20} color="white" />
         </LinearGradient>
@@ -655,7 +778,7 @@ const LetterHeaders = () => {
         />
       </View>
 
-      {/* Royaal Infra Modal */}
+      {/* AG Construction Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -671,7 +794,7 @@ const LetterHeaders = () => {
                     style={styles.downloadButton}
                     onPress={() => generatePDF('infra')}
                   >
-                    <Text style={styles.downloadButtonText}>Download PDF</Text>
+                    <Text style={styles.downloadButtonText}>Download</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.closeButton}
@@ -680,126 +803,50 @@ const LetterHeaders = () => {
                     <Text style={styles.closeButtonText}>Close</Text>
                   </TouchableOpacity>
                 </View>
+                
+                {/* This is the new Letterhead design */}
                 <View style={styles.letterHeadContent}>
-                  <View style={styles.headerContainerModal}>
-                    <Image source={infraLogo} style={styles.logo} resizeMode="contain" />
-                    <View style={styles.contactInfo}>
-                      <View style={styles.contactRow}>
-                        <View>
-                          <Text style={styles.contactText}>
-                          Plot 62, Hudkeshwar Rd, near Rakshak Fresh Mart, Ingole Nagar,
-                          </Text>
-                          <Text style={styles.contactText}>
-                            Hudkeshwar Road, Nagpur - 440034
-                          </Text>
+                    <View style={styles.relievingHeaderSection}>
+                        <View style={styles.relievingLogoContainer}>
+                            <Image source={infraLogo} style={styles.logo} resizeMode="contain" />
                         </View>
-                        <View style={styles.iconWrapper}>
-                          <FontAwesome name="map-marker" size={15} color="#fff" />
+                        <View style={styles.relievingCompanyDetails}>
+                            <Text style={styles.addressHeader}>Address</Text>
+                            <View style={styles.relievingDetailRow}>
+                                <View style={styles.relievingDetailText}>
+                                    <Text>Plot 62, Hudkeshwar Rd, near Rakshak Fresh Mart, Ingole Nagar</Text>
+                                    <Text>Hudkeshwar Road, Nagpur - 440034</Text>
+                                </View>
+                            </View>
+                            <View style={styles.relievingDetailRow}>
+                                <View style={styles.relievingIconBox}>
+                                    <FontAwesome name="envelope" size={20} color="#000" />
+                                </View>
+                                <Text style={styles.relievingDetailText}>agconstructions220@gmail.com</Text>
+                            </View>
+                            <View style={styles.relievingDetailRow}>
+                                <View style={styles.relievingIconBox}>
+                                    <FontAwesome name="globe" size={20} color="#000" />
+                                </View>
+                                <Text style={styles.relievingDetailText}>www.agconstructionnagpur.in</Text>
+                            </View>
+                            <View style={styles.relievingDetailRow}>
+                                <View style={styles.relievingIconBox}>
+                                    <FontAwesome name="phone" size={20} color="#000" />
+                                </View>
+                                <Text style={styles.relievingDetailText}>+91 7620 419 075</Text>
+                            </View>
                         </View>
-                      </View>
-                      <View style={styles.contactRow}>
-                        <Text style={styles.contactText}>agconstructions220@gmail.com</Text>
-                        <View style={styles.iconWrapper}>
-                          <FontAwesome name="envelope" size={15} color="#fff" />
-                        </View>
-                      </View>
-                      <View style={styles.contactRow}>
-                        <Text style={styles.contactText}>www.agconstructionnagpur.in</Text>
-                        <View style={styles.iconWrapper}>
-                          <FontAwesome name="globe" size={15} color="#fff" />
-                        </View>
-                      </View>
-                      <View style={styles.contactRow}>
-                        <Text style={styles.contactText}>+91 7620 419 075</Text>
-                        <View style={styles.iconWrapper}>
-                          <FontAwesome name="phone" size={15} color="#fff" />
-                        </View>
-                      </View>
                     </View>
-                  </View>
-                  <View style={styles.dividerContainer}>
-                    <View style={[styles.divider, { borderWidth: 1 }]} />
-                    <View style={[styles.divider, { borderWidth: 3 }]} />
-                  </View>
+                    <View style={styles.thickDivider} />
                 </View>
+
               </View>
             </ScrollView>
           </BlurView>
         </View>
       </Modal>
 
-      {/* Royaal Loan Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={loanLetterHead}
-        onRequestClose={() => setLoanLetterHead(false)}
-      >
-        <View style={styles.modalContainer}>
-          <BlurView intensity={90} style={styles.modalBlur}>
-            <ScrollView contentContainerStyle={styles.modalContent}>
-              <View style={styles.letterHeadContainer}>
-                <View style={styles.letterHeadButtons}>
-                  <TouchableOpacity
-                    style={styles.downloadButton}
-                    onPress={() => generatePDF('loan')}
-                  >
-                    <Text style={styles.downloadButtonText}>Download PDF</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.closeButton}
-                    onPress={() => setLoanLetterHead(false)}
-                  >
-                    <Text style={styles.closeButtonText}>Close</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.letterHeadContent}>
-                  <View style={styles.headerContainerModal}>
-                    {/* <Image source={loanLogo} style={styles.logo} resizeMode="contain" /> */}
-                    <View style={styles.contactInfo}>
-                      <View style={styles.contactRow}>
-                        <View>
-                          <Text style={styles.contactText}>
-                            Plot No. 28, 1st Floor, Govind Prabhau Nagar,
-                          </Text>
-                          <Text style={styles.contactText}>
-                            Hudkeshwar Road, Nagpur - 440034
-                          </Text>
-                        </View>
-                        <View style={styles.iconWrapper}>
-                          <FontAwesome name="map-marker" size={15} color="#fff" />
-                        </View>
-                      </View>
-                      <View style={styles.contactRow}>
-                        <Text style={styles.contactText}>royaalmede@gmail.com</Text>
-                        <View style={styles.iconWrapper}>
-                          <FontAwesome name="envelope" size={15} color="#fff" />
-                        </View>
-                      </View>
-                      <View style={styles.contactRow}>
-                        <Text style={styles.contactText}>www.royaalmede.co.in</Text>
-                        <View style={styles.iconWrapper}>
-                          <FontAwesome name="globe" size={15} color="#fff" />
-                        </View>
-                      </View>
-                      <View style={styles.contactRow}>
-                        <Text style={styles.contactText}>9028999253 | 9373450092</Text>
-                        <View style={styles.iconWrapper}>
-                          <FontAwesome name="phone" size={15} color="#fff" />
-                        </View>
-                      </View>
-                    </View>
-                  </View>
-                  <View style={styles.dividerContainer}>
-                    <View style={[styles.divider, { borderWidth: 1 }]} />
-                    <View style={[styles.divider, { borderWidth: 3 }]} />
-                  </View>
-                </View>
-              </View>
-            </ScrollView>
-          </BlurView>
-        </View>
-      </Modal>
     </LinearGradient>
   );
 };
@@ -872,8 +919,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalBlur: {
-    width: width * 0.9,
-    maxWidth: 450,
+    width: width * 0.95, 
+    maxHeight: '80%',
     borderRadius: 15,
     overflow: 'hidden',
   },
@@ -886,7 +933,7 @@ const styles = StyleSheet.create({
   },
   letterHeadButtons: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end', 
     marginBottom: 20,
   },
   downloadButton: {
@@ -894,6 +941,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
+    marginRight: 10,
   },
   downloadButtonText: {
     color: '#fff',
@@ -901,7 +949,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   closeButton: {
-    backgroundColor: '#FF0000',
+    backgroundColor: '#FF6347', 
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -911,44 +959,49 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  headerContainerModal: {
+  letterHeadContent: {
+    // This is the container for the letterhead itself
+  },
+  relievingHeaderSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
+    alignItems: 'flex-start',
+  },
+  relievingLogoContainer: {
+    // Flexbox will handle the sizing based on the other element
   },
   logo: {
     height: 80,
-    width: 100,
+    width: 150, // Increased the width
   },
-  contactInfo: {
-    flex: 2,
-    alignItems: 'flex-end',
+  relievingCompanyDetails: {
+    flex: 1, // Allows this to take up the remaining space
+    marginLeft: 15,
   },
-  contactRow: {
+  addressHeader: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  relievingDetailRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 5,
-    justifyContent: 'flex-end',
+    marginBottom: 8,
   },
-  iconWrapper: {
-    backgroundColor: '#d34508',
-    padding: 8,
-    borderRadius: 2,
-    marginLeft: 10,
-  },
-  contactText: {
-    color: '#000',
-    fontSize: 14,
+  relievingIconBox: {
+    width: 30, // Ensures text aligns vertically
+    alignItems: 'center',
     marginRight: 10,
   },
-  dividerContainer: {
-    marginBottom: 10,
+  relievingDetailText: {
+    flex: 1, 
+    fontSize: 14,
   },
-  divider: {
-    borderColor: 'rgb(167, 5, 86)',
-    marginBottom: 2,
-  },
+  thickDivider: {
+    height: 2,
+    backgroundColor: '#000',
+    marginTop: 15,
+  }
 });
 
 export default LetterHeaders;

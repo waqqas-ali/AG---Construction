@@ -140,6 +140,12 @@ const Home = ({ navigation, route }) => {
       color: "#607D8B",
       navigate: "Letter",
     },
+    {
+      title: "Office Management",
+      icon: <MaterialIcons name="business-center" size={getResponsiveFontSize(24)} color="#009688" />,
+      color: "#607D8B",
+      navigate: "Office_Management",
+    }
   ]
 
   useEffect(() => {
@@ -178,7 +184,7 @@ const Home = ({ navigation, route }) => {
       return []
     }
     const role = userData?.role?.[0]?.roleName?.toLowerCase()
-    console.log("Role for filtering:", role)
+    // console.log("Role for filtering:", role)
     if (role === "supervisor") {
       return menuItems.filter((item) => item.title === "Stock Management")
     } else if (role === "employee") {

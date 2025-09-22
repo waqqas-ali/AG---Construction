@@ -44,6 +44,8 @@ import Possession_Letter from './Screens/Home/Letter/Possession_Letter.js'; // A
 import Riveling_Letter from './Screens/Home/Letter/Riveling_Letter.js';
 import Salary_Slip from './Screens/Home/Letter/Salary_Slip.js';
 
+import Office_Management from './Screens/Home/Office Management/Office_Management.js';
+
 
 import Home from './Screens/Home/Home.js';
 const Stack = createStackNavigator();
@@ -95,6 +97,8 @@ const App = () => {
             <Stack.Screen name="Letter Headers" component={letter_Heades} />
             <Stack.Screen name="Noc Letter" component={Noc_Letter} />
             <Stack.Screen name="Possession Letter" component={Possession_Letter} />
+
+            <Stack.Screen name="Office_Management" component={Office_Management} />
 
 
         </Stack.Navigator>

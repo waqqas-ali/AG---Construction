@@ -1049,17 +1049,17 @@ import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    Animated,
-    FlatList,
-    Modal,
-    RefreshControl,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  Animated,
+  FlatList,
+  Modal,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 const All_Stocks = () => {
@@ -1116,6 +1116,7 @@ const All_Stocks = () => {
         },
       });
       setStockData(response.data || []);
+      console.log(JSON. stringify(response.data));
     } catch (error) {
       console.error('Error fetching stocks:', error);
       Alert.alert('Error', 'Failed to load stocks');
@@ -1334,7 +1335,7 @@ const All_Stocks = () => {
             </View>
             <View style={styles.cardBody}>
               <View style={styles.stockInfo}>
-                <Text style={styles.stockDetail}>ID: {item.id}</Text>
+                <Text style={styles.stockDetail}>Updated By: {item.updatedBy}</Text>
                 <Text style={styles.stockDetail}>Date: {item.productAddOnDate}</Text>
                 <Text style={styles.stockDetail}>Price: ${item.price}</Text>
               </View>
